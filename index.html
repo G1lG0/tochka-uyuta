@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Точка уюта</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f5f5f5;
+}
+
+/* МЕНЮ */
+.sidebar {
+    position: fixed;
+    width: 260px;
+    height: 100%;
+    background: #4b342f;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    margin: 6px 0;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.sidebar a.active-link {
+    background: #6a4a43;
+}
+
+.sidebar a:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.contacts {
+    margin-top: 40px;
+}
+
+.contacts a {
+    display: block;
+    color: #ccc;
+    margin-top: 5px;
+}
+
+/* КОНТЕНТ */
+.content {
+    margin-left: 260px;
+    padding: 40px;
+}
+
+/* СТРАНИЦЫ */
+.page {
+    display: none;
+}
+
+.page.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ГЛАВНАЯ */
+.center {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* КАРТОЧКА */
+.card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    max-width: 900px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* ФОТО */
+.gallery {
+    display: flex;
+}
+
+.gallery img {
+    width: 50%;
+    height: 300px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.gallery img:hover {
+    opacity: 0.9;
+}
+
+/* ИНФА */
+.card-body {
+    padding: 25px;
+}
+
+.title {
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+.price {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+/* КНОПКИ */
+.btns {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    background: #4b342f;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #6a4a43;
+}
+
+/* КАРТА */
+.map {
+    margin-top: 20px;
+    width: 900px;
+    height: 220px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+/* FULLSCREEN */
+.fullscreen {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.9);
+    display:none;
+    justify-content:center;
+    align-items:center;
+}
+
+.fullscreen img {
+    max-width:90%;
+    max-height:90%;
+}
+</style>
+</head>
+
+<body>
+
+<!-- МЕНЮ -->
+<div class="sidebar">
+    <h2>Точка уюта</h2>
+
+    <a href="javascript:void(0)" id="link-main" class="active-link" onclick="showPage('main')">Главная</a>
+    <a href="javascript:void(0)" id="link-apt1" onclick="showPage('apt1')">Лермонтова 8</a>
+    <a href="javascript:void(0)" id="link-apt2" onclick="showPage('apt2')">Тимирязева 1</a>
+
+    <div class="contacts">
+        📞 +7 924 824-31-83
+        <a href="https://t.me/evergreen_hope1">Telegram</a>
+        <a href="https://vk.com/id1054190749">ВКонтакте</a>
+    </div>
+</div>
+
+<div class="content">
+
+<!-- ГЛАВНАЯ -->
+<div id="main" class="page active">
+    <div class="center">
+        <div>
+            <h1>Точка уюта</h1>
+            <p>Уютные квартиры посуточно в Свирске</p>
+            <p>✓ Чисто ✓ Быстрое заселение ✓ Командировки</p>
+        </div>
+    </div>
+</div>
+
+<!-- ЛЕРМОНТОВА -->
+<div id="apt1" class="page">
+
+<div class="card">
+
+<div class="gallery">
+    <img src="5370991281397502725.jpg" onclick="openFullscreen(this)">
+    <img src="5370991281397502727.jpg" onclick="openFullscreen(this)">
+</div>
+
+<div class="card-body">
+    <div class="title">Лермонтова 8</div>
+    <div>Просторная квартира</div>
+
+    <div class="price">2700₽ / сутки</div>
+    <div>до 3 человек +500₽ за каждого</div>
+
+    <div class="btns">
+        <a class="btn" href="https://vk.com/im?sel=1054190749&text=Хочу%20Лермонтова%208">ВКонтакте</a>
+        <a class="btn" href="https://t.me/evergreen_hope1?text=Хочу%20Лермонтова%208">Telegram</a>
+    </div>
+</div>
+
+</div>
+
+<div class="map">
+<iframe src="https://maps.google.com/maps?q=Свирск&t=&z=13&output=embed"
+width="100%" height="100%"></iframe>
+</div>
+
+</div>
+
+<!-- ТИМИРЯЗЕВА -->
+<div id="apt2" class="page">
+
+<div class="card">
+
+<div class="gallery">
+    <img src="5370991281397502732.jpg" onclick="openFullscreen(this)">
+    <img src="5370991281397502725.jpg" onclick="openFullscreen(this)">
+</div>
+
+<div class="card-body">
+    <div class="title">Тимирязева 1</div>
+    <div>Уютная квартира</div>
+
+    <div class="price">2700₽ / сутки</div>
+    <div>до 3 человек +500₽ за каждого</div>
+
+    <div class="btns">
+        <a class="btn" href="https://vk.com/im?sel=1054190749&text=Хочу%20Тимирязева%201">ВКонтакте</a>
+        <a class="btn" href="https://t.me/evergreen_hope1?text=Хочу%20Тимирязева%201">Telegram</a>
+    </div>
+</div>
+
+</div>
+
+<div class="map">
+<iframe src="https://maps.google.com/maps?q=Свирск&t=&z=13&output=embed"
+width="100%" height="100%"></iframe>
+</div>
+
+</div>
+
+</div>
+
+<!-- FULLSCREEN -->
+<div class="fullscreen" id="fullscreen" onclick="closeFullscreen()">
+    <img id="fullscreen-img">
+</div>
+
+<script>
+function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+
+    document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active-link'));
+    document.getElementById('link-' + pageId).classList.add('active-link');
+}
+
+function openFullscreen(img) {
+    document.getElementById('fullscreen').style.display = "flex";
+    document.getElementById('fullscreen-img').src = img.src;
+}
+
+function closeFullscreen() {
+    document.getElementById('fullscreen').style.display = "none";
+}
+</script>
+
+</body>
+</html>
