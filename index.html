@@ -2,291 +2,897 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Точка уюта</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Точка уюта - Уютные апартаменты в Свирске</title>
 
 <style>
-body {
+/* ===== RESET & BASE ===== */
+* {
     margin: 0;
-    font-family: Arial;
-    background: #f5f5f5;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* МЕНЮ */
+:root {
+    --primary: #4b342f;
+    --primary-light: #6a4a43;
+    --primary-dark: #362521;
+    --gold: #c9a87c;
+    --gold-light: #e8d5b8;
+    --text-light: #f5f0eb;
+    --shadow: 0 8px 32px rgba(0,0,0,0.12);
+    --radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f8f4f0;
+    color: #2c2c2c;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1ede8;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--primary-light);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* ===== SIDEBAR ===== */
 .sidebar {
     position: fixed;
-    width: 260px;
-    height: 100%;
-    background: #4b342f;
+    width: 280px;
+    height: 100vh;
+    background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary) 100%);
     color: white;
-    padding: 20px;
+    padding: 32px 24px;
     display: flex;
     flex-direction: column;
+    z-index: 100;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 4px 0 20px rgba(0,0,0,0.2);
 }
 
-.sidebar a {
-    color: white;
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-brand .logo-icon {
+    font-size: 32px;
+}
+
+.sidebar-brand h2 {
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+.sidebar-brand h2 span {
+    font-weight: 700;
+    color: var(--gold);
+}
+
+.sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar-nav a {
+    color: rgba(255,255,255,0.7);
     text-decoration: none;
-    margin: 6px 0;
-    padding: 10px;
-    border-radius: 10px;
-    transition: 0.3s;
+    padding: 12px 16px;
+    border-radius: 12px;
+    transition: var(--transition);
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
 }
 
-.sidebar a.active-link {
-    background: #6a4a43;
+.sidebar-nav a:hover {
+    color: white;
+    background: rgba(255,255,255,0.08);
+    transform: translateX(4px);
 }
 
-.sidebar a:hover {
-    background: rgba(255,255,255,0.1);
+.sidebar-nav a.active-link {
+    color: white;
+    background: rgba(255,255,255,0.15);
+    box-shadow: inset 3px 0 0 var(--gold);
 }
 
-.contacts {
-    margin-top: 40px;
+.sidebar-nav a .nav-icon {
+    font-size: 20px;
+    width: 28px;
+    text-align: center;
 }
 
-.contacts a {
-    display: block;
-    color: #ccc;
-    margin-top: 5px;
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
 }
 
-/* КОНТЕНТ */
+.sidebar-footer .phone {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 8px;
+}
+
+.sidebar-footer .social {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.sidebar-footer .social a {
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.05);
+    font-size: 13px;
+    transition: var(--transition);
+}
+.sidebar-footer .social a:hover {
+    color: white;
+    background: rgba(255,255,255,0.12);
+}
+
+/* ===== MOBILE MENU TOGGLE ===== */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 101;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+.menu-toggle:hover {
+    transform: scale(1.05);
+}
+.menu-toggle.open {
+    left: 296px;
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 99;
+}
+
+/* ===== CONTENT ===== */
 .content {
-    margin-left: 260px;
-    padding: 40px;
+    margin-left: 280px;
+    min-height: 100vh;
+    padding: 40px 48px;
+    transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* СТРАНИЦЫ */
+/* ===== PAGES ===== */
 .page {
     display: none;
+    animation: fadeSlide 0.5s ease forwards;
 }
 
 .page.active {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
-/* ГЛАВНАЯ */
-.center {
-    height: 90vh;
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== HERO (ГЛАВНАЯ) ===== */
+.hero {
+    min-height: 85vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+    width: 100%;
+    background: radial-gradient(ellipse at center, #f8f4f0 0%, #ede7e1 100%);
+    border-radius: var(--radius);
+    padding: 60px 40px;
+    position: relative;
+    overflow: hidden;
 }
 
-/* КАРТОЧКА */
+.hero::before {
+    content: '✦';
+    position: absolute;
+    font-size: 300px;
+    color: rgba(75, 52, 47, 0.04);
+    top: -80px;
+    right: -80px;
+    transform: rotate(20deg);
+}
+
+.hero h1 {
+    font-size: 64px;
+    font-weight: 300;
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+}
+.hero h1 span {
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.hero .subtitle {
+    font-size: 22px;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.hero .features {
+    display: flex;
+    gap: 32px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.hero .features .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    padding: 12px 24px;
+    border-radius: 40px;
+    box-shadow: var(--shadow);
+    font-size: 15px;
+}
+.hero .features .feature-item .icon {
+    font-size: 20px;
+}
+
+.hero .cta-buttons {
+    margin-top: 40px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.hero .cta-buttons .btn-primary {
+    background: var(--primary);
+    color: white;
+    padding: 14px 40px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+    box-shadow: 0 4px 16px rgba(75, 52, 47, 0.3);
+}
+.hero .cta-buttons .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(75, 52, 47, 0.4);
+}
+
+.hero .cta-buttons .btn-secondary {
+    background: white;
+    color: var(--primary);
+    padding: 14px 40px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+}
+.hero .cta-buttons .btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+/* ===== CARD (Квартиры) ===== */
 .card {
     background: white;
-    border-radius: 20px;
+    border-radius: var(--radius);
     overflow: hidden;
-    max-width: 900px;
+    max-width: 1000px;
     width: 100%;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
 }
 
-/* ФОТО */
+.card:hover {
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+}
+
 .gallery {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
 }
 
 .gallery img {
-    width: 50%;
-    height: 300px;
+    width: 100%;
+    height: 320px;
     object-fit: cover;
     cursor: pointer;
-    transition: 0.3s;
+    transition: var(--transition);
 }
 
 .gallery img:hover {
-    opacity: 0.9;
+    transform: scale(1.02);
+    filter: brightness(0.95);
 }
 
-/* ИНФА */
 .card-body {
-    padding: 25px;
+    padding: 32px 36px;
 }
 
-.title {
-    font-size: 26px;
-    margin-bottom: 10px;
+.card-body .title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.card-body .title .badge {
+    font-size: 12px;
+    background: var(--gold-light);
+    color: var(--primary);
+    padding: 2px 14px;
+    border-radius: 20px;
+    font-weight: 600;
 }
 
-.price {
-    font-size: 20px;
-    margin-top: 10px;
+.card-body .address {
+    color: #888;
+    margin-top: 4px;
+    font-size: 15px;
 }
 
-/* КНОПКИ */
+.card-body .price-block {
+    margin-top: 16px;
+    padding: 16px 20px;
+    background: #f8f4f0;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.card-body .price-block .price {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary);
+}
+.card-body .price-block .price small {
+    font-weight: 400;
+    font-size: 16px;
+    color: #888;
+}
+
+.card-body .price-block .capacity {
+    color: #666;
+    font-size: 14px;
+}
+
 .btns {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     margin-top: 20px;
 }
 
-.btn {
+.btns .btn {
     flex: 1;
     text-align: center;
-    padding: 12px;
-    background: #4b342f;
-    color: white;
-    border-radius: 10px;
+    padding: 14px;
+    border-radius: 12px;
     text-decoration: none;
-    transition: 0.3s;
+    font-weight: 600;
+    transition: var(--transition);
+    font-size: 15px;
 }
 
-.btn:hover {
-    background: #6a4a43;
+.btns .btn-vk {
+    background: #4a76a8;
+    color: white;
+}
+.btns .btn-vk:hover {
+    background: #3a5f89;
+    transform: translateY(-2px);
 }
 
-/* КАРТА */
-.map {
-    margin-top: 20px;
-    width: 900px;
-    height: 220px;
-    border-radius: 15px;
+.btns .btn-tg {
+    background: #27a5e7;
+    color: white;
+}
+.btns .btn-tg:hover {
+    background: #1b8bc4;
+    transform: translateY(-2px);
+}
+
+.btns .btn-whatsapp {
+    background: #25d366;
+    color: white;
+}
+.btns .btn-whatsapp:hover {
+    background: #1da851;
+    transform: translateY(-2px);
+}
+
+/* ===== MAP ===== */
+.map-container {
+    margin-top: 24px;
+    width: 100%;
+    max-width: 1000px;
+    border-radius: var(--radius);
     overflow: hidden;
+    box-shadow: var(--shadow);
+    height: 240px;
 }
 
-/* FULLSCREEN */
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* ===== FULLSCREEN ===== */
 .fullscreen {
     position: fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background: rgba(0,0,0,0.9);
-    display:none;
-    justify-content:center;
-    align-items:center;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .fullscreen img {
-    max-width:90%;
-    max-height:90%;
+    max-width: 92%;
+    max-height: 92%;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    animation: zoomIn 0.4s ease;
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.fullscreen .close-hint {
+    position: absolute;
+    bottom: 40px;
+    color: rgba(255,255,255,0.5);
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+    .content {
+        padding: 24px 32px;
+    }
+    .gallery img {
+        height: 240px;
+    }
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+        width: 300px;
+    }
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .sidebar-overlay.active {
+        display: block;
+    }
+
+    .content {
+        margin-left: 0;
+        padding: 20px 16px;
+        padding-top: 80px;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+    .hero .subtitle {
+        font-size: 18px;
+    }
+    .hero .features {
+        gap: 12px;
+    }
+    .hero .features .feature-item {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+
+    .gallery {
+        grid-template-columns: 1fr;
+    }
+    .gallery img {
+        height: 200px;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+    .card-body .title {
+        font-size: 22px;
+        flex-wrap: wrap;
+    }
+    .card-body .price-block .price {
+        font-size: 22px;
+    }
+
+    .btns {
+        flex-wrap: wrap;
+    }
+    .btns .btn {
+        flex: 1 1 100%;
+    }
+
+    .map-container {
+        height: 180px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 28px;
+    }
+    .hero .cta-buttons .btn-primary,
+    .hero .cta-buttons .btn-secondary {
+        padding: 12px 28px;
+        font-size: 14px;
+    }
+    .card-body .price-block {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
 </style>
 </head>
-
 <body>
 
-<!-- МЕНЮ -->
-<div class="sidebar">
-    <h2>Точка уюта</h2>
+<!-- ===== MOBILE MENU TOGGLE ===== -->
+<button class="menu-toggle" id="menuToggle" aria-label="Меню">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <a href="javascript:void(0)" id="link-main" class="active-link" onclick="showPage('main')">Главная</a>
-    <a href="javascript:void(0)" id="link-apt1" onclick="showPage('apt1')">Лермонтова 8</a>
-    <a href="javascript:void(0)" id="link-apt2" onclick="showPage('apt2')">Тимирязева 1</a>
-
-    <div class="contacts">
-        📞 +7 924 824-31-83
-        <a href="https://t.me/evergreen_hope1">Telegram</a>
-        <a href="https://vk.com/id1054190749">ВКонтакте</a>
+<!-- ===== SIDEBAR ===== -->
+<nav class="sidebar" id="sidebar" role="navigation" aria-label="Основное меню">
+    <div class="sidebar-brand">
+        <span class="logo-icon">🏠</span>
+        <h2>Точка <span>уюта</span></h2>
     </div>
-</div>
 
-<div class="content">
+    <div class="sidebar-nav">
+        <a data-page="main" class="active-link">
+            <span class="nav-icon">✦</span> Главная
+        </a>
+        <a data-page="apt1">
+            <span class="nav-icon">🏢</span> Лермонтова 8
+        </a>
+        <a data-page="apt2">
+            <span class="nav-icon">🏡</span> Тимирязева 1
+        </a>
+    </div>
 
-<!-- ГЛАВНАЯ -->
-<div id="main" class="page active">
-    <div class="center">
-        <div>
-            <h1>Точка уюта</h1>
-            <p>Уютные квартиры посуточно в Свирске</p>
-            <p>✓ Чисто ✓ Быстрое заселение ✓ Командировки</p>
+    <div class="sidebar-footer">
+        <div class="phone">📞 +7 924 824-31-83</div>
+        <div class="social">
+            <a href="https://t.me/evergreen_hope1">Telegram</a>
+            <a href="https://vk.com/id1054190749">ВКонтакте</a>
         </div>
     </div>
-</div>
+</nav>
 
-<!-- ЛЕРМОНТОВА -->
-<div id="apt1" class="page">
+<!-- ===== CONTENT ===== -->
+<main class="content">
 
-<div class="card">
+    <!-- ===== PAGE: MAIN ===== -->
+    <section id="main" class="page active">
+        <div class="hero">
+            <h1>Точка <span>уюта</span></h1>
+            <p class="subtitle">Уютные апартаменты посуточно в Свирске</p>
 
-<div class="gallery">
-    <img src="5370991281397502725.jpg" onclick="openFullscreen(this)">
-    <img src="5370991281397502727.jpg" onclick="openFullscreen(this)">
-</div>
+            <div class="features">
+                <span class="feature-item"><span class="icon">🧹</span> Идеальная чистота</span>
+                <span class="feature-item"><span class="icon">⚡</span> Быстрое заселение</span>
+                <span class="feature-item"><span class="icon">💼</span> Для командировок</span>
+                <span class="feature-item"><span class="icon">📶</span> Wi-Fi</span>
+            </div>
 
-<div class="card-body">
-    <div class="title">Лермонтова 8</div>
-    <div>Просторная квартира</div>
+            <div class="cta-buttons">
+                <a href="#" class="btn-primary" data-page="apt1">Смотреть квартиры →</a>
+                <a href="tel:+79248243183" class="btn-secondary">📞 Позвонить</a>
+            </div>
+        </div>
+    </section>
 
-    <div class="price">2700₽ / сутки</div>
-    <div>до 3 человек +500₽ за каждого</div>
+    <!-- ===== PAGE: ЛЕРМОНТОВА 8 ===== -->
+    <section id="apt1" class="page">
+        <div class="card">
+            <div class="gallery">
+                <img src="5370991281397502725.jpg" data-fullscreen="true" alt="Лермонтова 8 - фото 1" loading="lazy">
+                <img src="5370991281397502727.jpg" data-fullscreen="true" alt="Лермонтова 8 - фото 2" loading="lazy">
+            </div>
 
-    <div class="btns">
-        <a class="btn" href="https://vk.com/im?sel=1054190749&text=Хочу%20Лермонтова%208">ВКонтакте</a>
-        <a class="btn" href="https://t.me/evergreen_hope1?text=Хочу%20Лермонтова%208">Telegram</a>
-    </div>
-</div>
+            <div class="card-body">
+                <div class="title">
+                    Лермонтова 8
+                    <span class="badge">⭐ Популярный</span>
+                </div>
+                <div class="address">📍 Свирск, ул. Лермонтова, 8</div>
 
-</div>
+                <div class="price-block">
+                    <div>
+                        <div class="price">2 700 ₽ <small>/ сутки</small></div>
+                    </div>
+                    <div class="capacity">👤 до 3 чел. +500₽ за каждого</div>
+                </div>
 
-<div class="map">
-<iframe src="https://maps.google.com/maps?q=Свирск&t=&z=13&output=embed"
-width="100%" height="100%"></iframe>
-</div>
+                <div class="btns">
+                    <a class="btn btn-vk" href="https://vk.com/im?sel=1054190749&text=Хочу%20Лермонтова%208">ВКонтакте</a>
+                    <a class="btn btn-tg" href="https://t.me/evergreen_hope1?text=Хочу%20Лермонтова%208">Telegram</a>
+                    <a class="btn btn-whatsapp" href="https://wa.me/79248243183?text=Хочу%20Лермонтова%208">WhatsApp</a>
+                </div>
+            </div>
+        </div>
 
-</div>
+        <div class="map-container">
+            <iframe src="https://maps.google.com/maps?q=Свирск+Лермонтова+8&t=&z=15&output=embed" loading="lazy" title="Карта Лермонтова 8"></iframe>
+        </div>
+    </section>
 
-<!-- ТИМИРЯЗЕВА -->
-<div id="apt2" class="page">
+    <!-- ===== PAGE: ТИМИРЯЗЕВА 1 ===== -->
+    <section id="apt2" class="page">
+        <div class="card">
+            <div class="gallery">
+                <img src="5370991281397502732.jpg" data-fullscreen="true" alt="Тимирязева 1 - фото 1" loading="lazy">
+                <img src="5370991281397502725.jpg" data-fullscreen="true" alt="Тимирязева 1 - фото 2" loading="lazy">
+            </div>
 
-<div class="card">
+            <div class="card-body">
+                <div class="title">
+                    Тимирязева 1
+                    <span class="badge">🌿 Уютный</span>
+                </div>
+                <div class="address">📍 Свирск, ул. Тимирязева, 1</div>
 
-<div class="gallery">
-    <img src="5370991281397502732.jpg" onclick="openFullscreen(this)">
-    <img src="5370991281397502725.jpg" onclick="openFullscreen(this)">
-</div>
+                <div class="price-block">
+                    <div>
+                        <div class="price">2 700 ₽ <small>/ сутки</small></div>
+                    </div>
+                    <div class="capacity">👤 до 3 чел. +500₽ за каждого</div>
+                </div>
 
-<div class="card-body">
-    <div class="title">Тимирязева 1</div>
-    <div>Уютная квартира</div>
+                <div class="btns">
+                    <a class="btn btn-vk" href="https://vk.com/im?sel=1054190749&text=Хочу%20Тимирязева%201">ВКонтакте</a>
+                    <a class="btn btn-tg" href="https://t.me/evergreen_hope1?text=Хочу%20Тимирязева%201">Telegram</a>
+                    <a class="btn btn-whatsapp" href="https://wa.me/79248243183?text=Хочу%20Тимирязева%201">WhatsApp</a>
+                </div>
+            </div>
+        </div>
 
-    <div class="price">2700₽ / сутки</div>
-    <div>до 3 человек +500₽ за каждого</div>
+        <div class="map-container">
+            <iframe src="https://maps.google.com/maps?q=Свирск+Тимирязева+1&t=&z=15&output=embed" loading="lazy" title="Карта Тимирязева 1"></iframe>
+        </div>
+    </section>
 
-    <div class="btns">
-        <a class="btn" href="https://vk.com/im?sel=1054190749&text=Хочу%20Тимирязева%201">ВКонтакте</a>
-        <a class="btn" href="https://t.me/evergreen_hope1?text=Хочу%20Тимирязева%201">Telegram</a>
-    </div>
-</div>
+</main>
 
-</div>
-
-<div class="map">
-<iframe src="https://maps.google.com/maps?q=Свирск&t=&z=13&output=embed"
-width="100%" height="100%"></iframe>
-</div>
-
-</div>
-
-</div>
-
-<!-- FULLSCREEN -->
-<div class="fullscreen" id="fullscreen" onclick="closeFullscreen()">
-    <img id="fullscreen-img">
+<!-- ===== FULLSCREEN OVERLAY ===== -->
+<div class="fullscreen" id="fullscreen" role="dialog" aria-modal="true" aria-label="Просмотр фото">
+    <img id="fullscreen-img" alt="Увеличенное фото">
+    <div class="close-hint">✕ Нажмите для закрытия</div>
 </div>
 
 <script>
-function showPage(pageId) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
+document.addEventListener('DOMContentLoaded', function() {
+    'use strict';
 
-    document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active-link'));
-    document.getElementById('link-' + pageId).classList.add('active-link');
-}
+    // ===== DOM REFERENCES =====
+    const sidebar = document.getElementById('sidebar');
+    const menuToggle = document.getElementById('menuToggle');
+    const overlay = document.getElementById('sidebarOverlay');
+    const navLinks = document.querySelectorAll('.sidebar-nav a[data-page]');
+    const pages = {
+        main: document.getElementById('main'),
+        apt1: document.getElementById('apt1'),
+        apt2: document.getElementById('apt2')
+    };
+    const fullscreenEl = document.getElementById('fullscreen');
+    const fullscreenImg = document.getElementById('fullscreen-img');
+    const heroCtaLink = document.querySelector('.hero .btn-primary[data-page]');
 
-function openFullscreen(img) {
-    document.getElementById('fullscreen').style.display = "flex";
-    document.getElementById('fullscreen-img').src = img.src;
-}
+    // ===== NAVIGATION =====
+    function showPage(pageId) {
+        // Hide all pages
+        Object.values(pages).forEach(page => {
+            if (page) page.classList.remove('active');
+        });
 
-function closeFullscreen() {
-    document.getElementById('fullscreen').style.display = "none";
-}
+        // Show target page
+        if (pages[pageId]) {
+            pages[pageId].classList.add('active');
+        }
+
+        // Update active link
+        navLinks.forEach(link => {
+            link.classList.remove('active-link');
+            if (link.dataset.page === pageId) {
+                link.classList.add('active-link');
+            }
+        });
+
+        // Close mobile menu
+        closeMenu();
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ===== MOBILE MENU =====
+    function toggleMenu() {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('active');
+        menuToggle.classList.toggle('open');
+        menuToggle.textContent = sidebar.classList.contains('open') ? '✕' : '☰';
+    }
+
+    function closeMenu() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        menuToggle.classList.remove('open');
+        menuToggle.textContent = '☰';
+    }
+
+    // ===== FULLSCREEN =====
+    function openFullscreen(img) {
+        fullscreenImg.src = img.src;
+        fullscreenImg.alt = img.alt || 'Фото';
+        fullscreenEl.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeFullscreen() {
+        fullscreenEl.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    // ===== EVENT LISTENERS =====
+
+    // Navigation
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            showPage(this.dataset.page);
+        });
+    });
+
+    // Hero CTA
+    if (heroCtaLink) {
+        heroCtaLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            showPage(this.dataset.page);
+        });
+    }
+
+    // Mobile menu
+    menuToggle.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    // Close menu on Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeMenu();
+            closeFullscreen();
+        }
+    });
+
+    // Fullscreen on images
+    const fullscreenImages = document.querySelectorAll('img[data-fullscreen="true"]');
+    fullscreenImages.forEach(img => {
+        img.addEventListener('click', function() {
+            openFullscreen(this);
+        });
+        // Accessibility
+        img.setAttribute('role', 'button');
+        img.setAttribute('tabindex', '0');
+        img.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openFullscreen(this);
+            }
+        });
+    });
+
+    fullscreenEl.addEventListener('click', closeFullscreen);
+
+    // ===== SET INITIAL ACTIVE STATE =====
+    // Ensure main is active
+    const mainLink = document.querySelector('.sidebar-nav a[data-page="main"]');
+    if (mainLink) {
+        navLinks.forEach(l => l.classList.remove('active-link'));
+        mainLink.classList.add('active-link');
+    }
+
+    // ===== KEYBOARD SHORTCUTS =====
+    document.addEventListener('keydown', function(e) {
+        // Alt+1, Alt+2, Alt+3 for navigation
+        if (e.altKey) {
+            const map = { '1': 'main', '2': 'apt1', '3': 'apt2' };
+            if (map[e.key]) {
+                e.preventDefault();
+                showPage(map[e.key]);
+            }
+        }
+    });
+
+    console.log('🏠 Точка уюта — загружено!');
+    console.log('💡 Навигация: Alt+1 (Главная), Alt+2 (Лермонтова), Alt+3 (Тимирязева)');
+});
 </script>
 
 </body>
