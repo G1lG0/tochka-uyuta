@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Точка уюта — Уютные квартиры посуточно в Свирске</title>
+<meta name="description" content="Уютные 2-комнатные квартиры посуточно в Свирске: ул. Лермонтова 8 и ул. Тимирязева 1. Идеальная чистота, быстрое заселение, Wi-Fi. Бронирование онлайн.">
+<meta name="theme-color" content="#4b342f">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Точка уюта — квартиры посуточно в Свирске">
+<meta property="og:description" content="Уютные 2-комнатные квартиры посуточно в Свирске. Лермонтова 8 и Тимирязева 1. От 2 500 ₽/сутки.">
+<meta property="og:image" content="logo.jpg">
+<meta property="og:locale" content="ru_RU">
+
+<!-- Favicon -->
+<link rel="icon" href="logo.jpg" type="image/jpeg">
+
+<!-- Flatpickr -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/airbnb.css">
+
+<style>
+/* ===== RESET & BASE ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #4b342f;
+    --primary-light: #6a4a43;
+    --primary-dark: #362521;
+    --gold: #c9a87c;
+    --gold-light: #e8d5b8;
+    --text-light: #f5f0eb;
+    --shadow: 0 8px 32px rgba(0,0,0,0.08);
+    --shadow-hover: 0 16px 48px rgba(75, 52, 47, 0.12);
+    --radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --danger: #d9534f;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f8f4f0;
+    color: #2c2c2c;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+img[data-fullscreen="true"]:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 3px;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0);
+    white-space: nowrap; border: 0;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1ede8; }
+::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+    position: fixed;
+    width: 280px;
+    height: 100vh;
+    background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary) 100%);
+    color: white;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+}
+
+.sidebar-brand {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-brand .logo {
+    width: 100%;
+    max-width: 140px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    align-self: center;
+}
+
+.sidebar-brand .phone {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: var(--transition);
+}
+.sidebar-brand .phone:hover { color: white; }
+
+.sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar-nav a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    padding: 12px 16px;
+    border-radius: 12px;
+    transition: var(--transition);
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.sidebar-nav a:hover {
+    color: white;
+    background: rgba(255,255,255,0.08);
+    transform: translateX(4px);
+}
+
+.sidebar-nav a.active-link {
+    color: white;
+    background: rgba(255,255,255,0.15);
+    box-shadow: inset 3px 0 0 var(--gold);
+}
+
+.sidebar-nav a .nav-icon {
+    font-size: 20px;
+    width: 28px;
+    text-align: center;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-footer .social {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    justify-content: center;
+}
+
+.sidebar-footer .social a {
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.05);
+    font-size: 13px;
+    transition: var(--transition);
+}
+.sidebar-footer .social a:hover { color: white; background: rgba(255,255,255,0.12); }
+
+/* ===== MOBILE MENU TOGGLE ===== */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 101;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+.menu-toggle:hover { transform: scale(1.05); }
+.menu-toggle.open { left: 296px; }
+
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
+
+/* ===== CONTENT ===== */
+.content {
+    margin-left: 280px;
+    min-height: 100vh;
+    padding: 40px 48px;
+    transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== PAGES ===== */
+.page { display: none; animation: fadeSlide 0.5s ease forwards; }
+.page.active { display: flex; flex-direction: column; align-items: center; width: 100%; }
+
+@keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== HERO ===== */
+.hero {
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    background: rgba(248, 244, 240, 0.92);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius);
+    padding: 60px 40px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.05);
+}
+
+/* ===== ВНУТРЕННИЕ ФИГУРЫ (НЕЖНЫЕ) ===== */
+.bg-shapes {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.shape {
+    position: absolute;
+    background:
+        radial-gradient(circle at 30% 30%, rgba(232, 213, 184, 0.6), transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(220, 210, 200, 0.5), transparent 75%);
+    border-radius: 60% 40% 55% 45% / 50% 55% 45% 50%;
+    opacity: 0.5;
+    filter: blur(3px);
+    animation: float 14s infinite ease-in-out alternate;
+    will-change: transform;
+}
+
+.shape-1 { --r: 15deg; width: 350px; height: 350px; top: -50px; left: -100px; animation-delay: 0s; }
+.shape-2 { --r: -20deg; width: 200px; height: 200px; bottom: 10%; left: 5%; animation-delay: -2s; }
+.shape-3 { --r: 45deg; width: 450px; height: 450px; bottom: -100px; right: -100px; animation-delay: -4s; }
+.shape-4 { --r: -10deg; width: 150px; height: 150px; top: 15%; right: 15%; animation-delay: -1s; }
+.shape-5 { --r: 70deg; width: 100px; height: 100px; bottom: 30%; right: 30%; animation-delay: -3s; }
+
+@keyframes float {
+    0%   { transform: translateY(0) rotate(var(--r)) scale(1); }
+    50%  { transform: translateY(-14px) rotate(calc(var(--r) + 6deg)) scale(1.03); }
+    100% { transform: translateY(-22px) rotate(calc(var(--r) + 12deg)) scale(1.05); }
+}
+
+.shape::after {
+    content: '';
+    position: absolute;
+    inset: 18%;
+    background: radial-gradient(circle at 40% 40%, rgba(255,255,255,0.7), transparent 70%);
+    border-radius: inherit;
+    filter: blur(6px);
+    opacity: 0.8;
+}
+
+/* ===== ПРОКРУТКА ФОТО НА ФОНЕ ===== */
+.photo-marquee {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    display: flex;
+    overflow: hidden;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.marquee-track {
+    display: flex;
+    width: max-content;
+    animation: scroll 60s linear infinite;
+    will-change: transform;
+}
+
+.marquee-track img {
+    width: 400px;
+    height: 100vh;
+    object-fit: cover;
+    margin-right: 16px;
+    filter: blur(4px) grayscale(30%);
+}
+
+@keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+/* ===== ОСТАЛЬНЫЕ СТИЛИ ===== */
+.hero .hero-logo-container {
+    background: white;
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 0 0 8px rgba(255,255,255,0.5);
+    margin-bottom: 24px;
+    max-width: 180px;
+    z-index: 2;
+    position: relative;
+}
+
+.hero .hero-logo-container img { width: 100%; display: block; border-radius: 8px; }
+
+.hero h1 { font-size: 56px; font-weight: 300; letter-spacing: 2px; margin-bottom: 16px; position: relative; z-index: 2; }
+.hero h1 span { font-weight: 700; color: var(--primary); }
+
+.hero .subtitle { font-size: 22px; color: #666; margin-bottom: 24px; position: relative; z-index: 2; }
+
+.hero .features { display: flex; gap: 20px; margin-bottom: 40px; flex-wrap: wrap; justify-content: center; position: relative; z-index: 2; }
+.hero .features .feature-item {
+    display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(4px); padding: 12px 24px; border-radius: 40px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04); font-size: 15px; font-weight: 500;
+    border: 1px solid rgba(255,255,255,0.5);
+}
+.hero .features .feature-item .icon { font-size: 20px; }
+
+/* ===== УВЕЛИЧЕННЫЙ КАЛЕНДАРЬ И ВИДЖЕТ ===== */
+.calendar-widget {
+    background: white;
+    padding: 32px;
+    border-radius: var(--radius);
+    box-shadow: 0 16px 48px rgba(75, 52, 47, 0.08);
+    margin-top: 10px;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    width: 100%;
+    text-align: left;
+    border: 1px solid rgba(75,52,47,0.05);
+}
+
+.calendar-widget h3 { font-size: 22px; font-weight: 600; color: var(--primary); margin-bottom: 8px; text-align: center; }
+.calendar-widget p { font-size: 15px; color: #888; margin-bottom: 24px; text-align: center; }
+
+.calendar-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    background: #f8f4f0;
+    padding: 6px;
+    border-radius: 12px;
+}
+.calendar-tab {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #888;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.calendar-tab:hover { color: var(--primary); }
+.calendar-tab.active { background: white; color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+.object-selector {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.object-selector label { font-size: 14px; color: #666; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.object-selector select {
+    width: 100%; padding: 16px; border: 2px solid #efece8; border-radius: 12px;
+    font-size: 16px; font-family: inherit; color: var(--primary);
+    font-weight: 600; outline: none; cursor: pointer; background: #fdfcfb;
+    transition: border 0.3s, background 0.3s;
+}
+.object-selector select:focus { border-color: var(--gold); background: white; }
+
+.widget-container {
+    width: 100%;
+    min-height: 600px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f8f4f0;
+    position: relative;
+    margin-bottom: 16px;
+}
+.widget-container iframe {
+    width: 100%;
+    height: 700px;
+    border: none;
+    display: block;
+}
+.widget-fallback {
+    display: none;
+    padding: 40px;
+    text-align: center;
+    color: #666;
+    background: #f8f4f0;
+    border-radius: 12px;
+}
+.widget-fallback p { margin-bottom: 16px; }
+.widget-fallback a {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+}
+.widget-fallback a:hover { background: var(--primary-light); }
+
+/* Старый календарь */
+.calendar-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.calendar-input-group { display: flex; flex-direction: column; gap: 8px; }
+.calendar-input-group label { font-size: 14px; color: #666; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.calendar-input-group input {
+    padding: 16px; border: 2px solid #efece8; border-radius: 12px;
+    font-size: 16px; font-family: inherit; color: var(--primary);
+    font-weight: 600; outline: none; transition: border 0.3s, background 0.3s; cursor: pointer; background: #fdfcfb;
+}
+.calendar-input-group input:focus { border-color: var(--gold); background: white; }
+.guests-input { margin-bottom: 24px; display: flex; flex-direction: column; gap: 8px; }
+.guests-input label { font-size: 14px; color: #666; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.guests-input select {
+    width: 100%; padding: 16px; border: 2px solid #efece8; border-radius: 12px;
+    font-size: 16px; font-family: inherit; color: var(--primary);
+    font-weight: 600; outline: none; cursor: pointer; background: #fdfcfb;
+    transition: border 0.3s, background 0.3s;
+}
+.guests-input select:focus { border-color: var(--gold); background: white; }
+.total-price {
+    font-size: 20px; font-weight: 700; color: var(--primary); text-align: center;
+    margin-bottom: 20px; padding: 16px; background: #f8f4f0; border-radius: 12px; display: none;
+    border: 1px solid #efece8;
+}
+.calendar-widget .btn-calendar {
+    display: block; background: var(--primary); color: white; padding: 18px;
+    border-radius: 12px; text-decoration: none; font-weight: 600; transition: var(--transition);
+    width: 100%; text-align: center; border: none; cursor: pointer; font-size: 16px;
+    box-shadow: 0 8px 24px rgba(75, 52, 47, 0.2);
+}
+.calendar-widget .btn-calendar:hover { background: var(--primary-light); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(75, 52, 47, 0.3); }
+
+/* CTA Кнопки */
+.hero .cta-buttons { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; position: relative; z-index: 2; }
+.hero .cta-buttons .btn-primary {
+    background: var(--primary); color: white; padding: 16px 42px; border-radius: 40px;
+    text-decoration: none; font-weight: 600; transition: var(--transition); box-shadow: 0 4px 16px rgba(75, 52, 47, 0.3);
+}
+.hero .cta-buttons .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(75, 52, 47, 0.4); }
+.hero .cta-buttons .btn-secondary {
+    background: white; color: var(--primary); padding: 16px 42px; border-radius: 40px;
+    text-decoration: none; font-weight: 600; transition: var(--transition); box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+.hero .cta-buttons .btn-secondary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+
+/* Карточки квартир */
+.card {
+    background: white; border-radius: var(--radius); overflow: hidden; max-width: 1100px;
+    width: 100%; box-shadow: var(--shadow); transition: var(--transition); margin-bottom: 32px;
+    border: 1px solid rgba(0,0,0,0.02);
+}
+.card:hover { box-shadow: var(--shadow-hover); }
+.gallery { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    gap: 6px; 
+    background: #f8f4f0; 
+    padding: 6px;
+}
+.gallery img { 
+    width: 100%; 
+    height: 260px; 
+    object-fit: cover; 
+    cursor: pointer; 
+    transition: var(--transition); 
+    border-radius: 8px;
+}
+.gallery img:hover { transform: scale(1.02); filter: brightness(0.95); z-index: 2; }
+
+.card-body { padding: 36px 40px; }
+.card-body .title { font-size: 32px; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.card-body .title .badge { font-size: 13px; background: var(--gold-light); color: var(--primary); padding: 4px 16px; border-radius: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.card-body .address { color: #888; margin-top: 8px; font-size: 16px; display: flex; align-items: center; gap: 6px; }
+
+.card-body .price-block { 
+    margin-top: 24px; 
+    padding: 20px 24px; 
+    background: linear-gradient(135deg, #fdfcfb 0%, #f8f4f0 100%); 
+    border-radius: 16px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    flex-wrap: wrap; 
+    gap: 12px;
+    border: 1px solid #efece8;
+}
+.card-body .price-block .price { font-size: 32px; font-weight: 700; color: var(--primary); }
+.card-body .price-block .price small { font-weight: 400; font-size: 16px; color: #888; }
+.card-body .price-block .capacity { color: #666; font-size: 15px; font-weight: 500; background: white; padding: 8px 16px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); text-align: center; }
+
+.btns { display: flex; gap: 12px; margin-top: 24px; }
+.btns .btn { 
+    flex: 1; text-align: center; padding: 16px; border-radius: 12px; text-decoration: none; 
+    font-weight: 600; transition: var(--transition); font-size: 15px; color: white;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btns .btn-vk { background: #4a76a8; box-shadow: 0 4px 12px rgba(74, 118, 168, 0.3); }
+.btns .btn-vk:hover { background: #3a5f89; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(74, 118, 168, 0.4); }
+.btns .btn-tg { background: #27a5e7; box-shadow: 0 4px 12px rgba(39, 165, 231, 0.3); }
+.btns .btn-tg:hover { background: #1b8bc4; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(39, 165, 231, 0.4); }
+.btns .btn-whatsapp { background: #25d366; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); }
+.btns .btn-whatsapp:hover { background: #1da851; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4); }
+
+/* Карта */
+.map-container { margin-top: 24px; width: 100%; max-width: 1100px; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); height: 260px; border: 4px solid white; }
+.map-container iframe { width: 100%; height: 100%; border: none; }
+
+/* ===== НОВЫЕ БЛОКИ: ПРАВИЛА И ИНФО ===== */
+.info-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 1100px;
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.info-card {
+    background: white;
+    padding: 32px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(0,0,0,0.02);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.info-card h3 {
+    font-size: 20px;
+    color: var(--primary);
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f8f4f0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info-card .warning-banner {
+    background: #fff3f3;
+    color: var(--danger);
+    padding: 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-align: center;
+    border: 1px solid #f5c6c6;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.info-text {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 12px;
+}
+
+.info-text strong {
+    color: var(--primary);
+}
+
+/* Новый стиль для списка удобств (вертикальный) */
+.amenities-list-vertical {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.amenities-list-vertical li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    color: #444;
+    line-height: 1.5;
+}
+
+.amenities-list-vertical .icon {
+    font-size: 20px;
+    width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* ===== ФУТЕР ===== */
+.site-footer {
+    width: 100%;
+    max-width: 1100px;
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 20px;
+    color: #888;
+    font-size: 14px;
+    border-top: 1px solid #e0dcd5;
+}
+
+.site-footer .footer-welcome {
+    font-size: 24px;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.site-footer p {
+    margin-bottom: 8px;
+}
+
+.site-footer a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Fullscreen */
+.fullscreen { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: none; justify-content: center; align-items: center; z-index: 1000; cursor: pointer; backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.fullscreen img { max-width: 92%; max-height: 92%; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); animation: zoomIn 0.4s ease; }
+@keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+.fullscreen .close-hint { position: absolute; bottom: 40px; color: rgba(255,255,255,0.6); font-size: 14px; letter-spacing: 1px; }
+.fullscreen .nav-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(255,255,255,0.15); color: white; border: none;
+    width: 56px; height: 56px; border-radius: 50%; font-size: 28px;
+    cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center;
+}
+.fullscreen .nav-arrow:hover { background: rgba(255,255,255,0.3); }
+.fullscreen .nav-arrow.prev { left: 24px; }
+.fullscreen .nav-arrow.next { right: 24px; }
+
+/* noscript */
+.noscript-banner {
+    background: #fff3cd; color: #664d03; padding: 16px; text-align: center;
+    font-size: 15px; position: relative; z-index: 200;
+}
+.noscript-banner a { color: #664d03; font-weight: 700; }
+
+/* Адаптив */
+@media (max-width: 1024px) {
+    .content { padding: 24px 32px; }
+    .gallery img { height: 220px; }
+    .card-body { padding: 24px; }
+    .card-body .title { font-size: 26px; }
+    .card-body .price-block .price { font-size: 26px; }
+    .info-sections { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+    .menu-toggle { display: block; }
+    .sidebar { transform: translateX(-100%); width: 300px; }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-overlay.active { display: block; }
+    .content { margin-left: 0; padding: 20px 16px; padding-top: 80px; }
+    .hero { padding: 40px 20px; }
+    .hero h1 { font-size: 36px; }
+    .hero .subtitle { font-size: 18px; }
+    .hero .features { gap: 12px; }
+    .hero .features .feature-item { padding: 8px 16px; font-size: 13px; }
+    .gallery { grid-template-columns: 1fr; }
+    .gallery img { height: 240px; }
+    .card-body .title { font-size: 22px; }
+    .card-body .price-block .price { font-size: 22px; }
+    .btns { flex-wrap: wrap; }
+    .btns .btn { flex: 1 1 100%; }
+    .map-container { height: 200px; }
+    .calendar-grid { grid-template-columns: 1fr; }
+    .widget-container { min-height: 500px; }
+    .widget-container iframe { height: 550px; }
+    .info-card { padding: 24px; }
+
+    .shape-1 { width: 200px; height: 200px; }
+    .shape-3 { width: 250px; height: 250px; }
+    .shape-4, .shape-5 { display: none; }
+
+    .marquee-track img { width: 250px; }
+    .fullscreen .nav-arrow { width: 44px; height: 44px; font-size: 22px; }
+}
+
+@media (max-width: 480px) {
+    .hero h1 { font-size: 28px; }
+    .hero .cta-buttons .btn-primary,
+    .hero .cta-buttons .btn-secondary { padding: 12px 28px; font-size: 14px; }
+    .card-body .price-block { flex-direction: column; align-items: flex-start; }
+    .calendar-widget { padding: 20px; }
+
+    .shape-2 { display: none; }
+}
+
+/* Уважение к prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+    .marquee-track { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<noscript>
+    <div class="noscript-banner">
+        Для работы календаря и навигации нужен JavaScript. Позвоните нам:
+        <a href="tel:+79248243183">+7 924 824-31-83</a>
+    </div>
+</noscript>
+
+<!-- ===== ФОН: БЕСКОНЕЧНАЯ ПРОКРУТКА ФОТО ===== -->
+<div class="photo-marquee" aria-hidden="true">
+    <div class="marquee-track">
+        <img src="images/Лермонтова/Л - спальня 2.jpg" alt="" loading="lazy" decoding="async">
+        <img src="images/Лермонтова/Л - спальня 1.jpg" alt="" loading="lazy" decoding="async">
+        <img src="images/Лермонтова/Л - кухня.jpg" alt="" loading="lazy" decoding="async">
+        <img src="images/Тимирязево/Т - зал.jpg" alt="" loading="lazy" decoding="async">
+        <img src="images/Тимирязево/Т - спальня.jpg" alt="" loading="lazy" decoding="async">
+        <img src="images/Тимирязево/Т - кухня.jpg" alt="" loading="lazy" decoding="async">
+        <img src="images/Лермонтова/Л - спальня 2.jpg" alt="" loading="lazy" decoding="async">
+        <img src="images/Лермонтова/Л - спальня 1.jpg" alt="" loading="lazy" decoding="async">
+        <img src="images/Лермонтова/Л - кухня.jpg" alt="" loading="lazy" decoding="async">
+        <img src="images/Тимирязево/Т - зал.jpg" alt="" loading="lazy" decoding="async">
+        <img src="images/Тимирязево/Т - спальня.jpg" alt="" loading="lazy" decoding="async">
+        <img src="images/Тимирязево/Т - кухня.jpg" alt="" loading="lazy" decoding="async">
+    </div>
+</div>
+
+<!-- ===== MOBILE MENU TOGGLE ===== -->
+<button class="menu-toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ===== SIDEBAR ===== -->
+<nav class="sidebar" id="sidebar" role="navigation" aria-label="Основное меню">
+    <div class="sidebar-brand">
+        <img src="logo.jpg" alt="Логотип Точка уюта" class="logo">
+        <a href="tel:+79248243183" class="phone">📞 +7 924 824-31-83</a>
+    </div>
+
+    <div class="sidebar-nav">
+        <a href="#main" data-page="main" class="active-link"><span class="nav-icon" aria-hidden="true">✦</span> Главная</a>
+        <a href="#apt1" data-page="apt1"><span class="nav-icon" aria-hidden="true">🏢</span> Лермонтова 8</a>
+        <a href="#apt2" data-page="apt2"><span class="nav-icon" aria-hidden="true">🏡</span> Тимирязева 1</a>
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="social">
+            <a href="https://t.me/evergreen_hope1" target="_blank" rel="noopener noreferrer">Telegram</a>
+            <a href="https://vk.com/id1054190749" target="_blank" rel="noopener noreferrer">ВКонтакте</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ===== CONTENT ===== -->
+<main class="content">
+
+    <!-- ===== PAGE: MAIN ===== -->
+    <section id="main" class="page active" aria-labelledby="main-title">
+        <div class="hero">
+
+            <div class="bg-shapes" aria-hidden="true">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+                <div class="shape shape-4"></div>
+                <div class="shape shape-5"></div>
+            </div>
+
+            <div class="hero-logo-container">
+                <img src="logo.jpg" alt="Логотип Точка уюта">
+            </div>
+
+            <h1 id="main-title">Точка <span>уюта</span></h1>
+            <p class="subtitle">Уютные 2-комнатные квартиры посуточно в Свирске</p>
+
+            <!-- Обновленные фичи по вашему списку -->
+            <div class="features">
+                <span class="feature-item"><span class="icon" aria-hidden="true">⚡</span> Быстрое заселение</span>
+                <span class="feature-item"><span class="icon" aria-hidden="true">🧹</span> Идеальная чистота</span>
+                <span class="feature-item"><span class="icon" aria-hidden="true">🤫</span> Конфиденциальность</span>
+            </div>
+
+            <!-- ИНТЕРАКТИВНЫЙ КАЛЕНДАРЬ + ВИДЖЕТ -->
+            <div class="calendar-widget">
+                <h3>Забронировать проживание</h3>
+                <p>Выберите квартиру и удобный способ бронирования</p>
+
+                <div class="calendar-tabs">
+                    <button class="calendar-tab active" data-tab="widget">Онлайн-бронь</button>
+                    <button class="calendar-tab" data-tab="calc">Расчёт стоимости</button>
+                </div>
+
+                <div class="object-selector">
+                    <label for="objectSelect">Выберите квартиру</label>
+                    <select id="objectSelect">
+                        <option value="apt1" data-id="216859">Лермонтова 8</option>
+                        <option value="apt2" data-id="216915">Тимирязева 1</option>
+                    </select>
+                </div>
+
+                <!-- Блок виджета RealtyCalendar (iframe) -->
+                <div id="widgetTab" class="tab-content">
+                    <div class="widget-container" id="widgetContainer">
+                        <iframe id="rcWidget" 
+                                src="https://homereserve.ru/n6JUBMJ8nz" 
+                                width="100%" 
+                                height="700" 
+                                frameborder="0"
+                                allowfullscreen
+                                loading="lazy"
+                                title="Онлайн-бронирование RealtyCalendar">
+                        </iframe>
+                    </div>
+                    <div class="widget-fallback" id="widgetFallback">
+                        <p>Не удалось загрузить виджет бронирования.</p>
+                        <a href="https://homereserve.ru/n6JUBMJ8nz" target="_blank" rel="noopener noreferrer">
+                            Открыть страницу бронирования
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Блок расчёта (старый календарь) -->
+                <div id="calcTab" class="tab-content" style="display: none;">
+                    <div class="calendar-grid">
+                        <div class="calendar-input-group">
+                            <label for="checkin">Заезд</label>
+                            <input type="text" id="checkin" placeholder="Выберите дату" readonly>
+                        </div>
+                        <div class="calendar-input-group">
+                            <label for="checkout">Выезд</label>
+                            <input type="text" id="checkout" placeholder="Выберите дату" readonly>
+                        </div>
+                    </div>
+
+                    <div class="guests-input">
+                        <label for="guests">Количество гостей</label>
+                        <select id="guests">
+                            <option value="1">1 гость</option>
+                            <option value="2" selected>2 гостя</option>
+                            <option value="3">3 гостя</option>
+                            <option value="4">4 гостя (+500 ₽/сутки)</option>
+                            <option value="5">5 гостей (+1 000 ₽/сутки)</option>
+                            <option value="6">6 гостей (+1 500 ₽/сутки)</option>
+                        </select>
+                    </div>
+
+                    <div class="total-price" id="totalPrice" role="status" aria-live="polite">Итого: 0 ₽</div>
+
+                    <button id="bookBtn" class="btn-calendar" style="display: none;">Забронировать в Telegram</button>
+                </div>
+            </div>
+
+            <div class="cta-buttons">
+                <a href="#apt1" class="btn-primary" data-page="apt1">Смотреть квартиры →</a>
+                <a href="tel:+79248243183" class="btn-secondary">📞 Позвонить</a>
+            </div>
+        </div>
+
+        <!-- ===== БЛОКИ С ИНФОРМАЦИЕЙ ===== -->
+        <div class="info-sections">
+            
+            <!-- Условия проживания -->
+            <div class="info-card">
+                <h3><span aria-hidden="true">📋</span> Условия проживания</h3>
+                
+                <div class="warning-banner">
+                    ❗️❗️❗️ Под вечеринки/мероприятия/праздники НЕ СДАЕТСЯ 🚫❗️❗️❗️
+                </div>
+
+                <p class="info-text">
+                    <strong>Цена указана за размещение до 3 человек</strong>, +500₽ за каждого последующего.
+                </p>
+                
+                <div class="amenities-list" style="margin-bottom: 16px;">
+                    <li><span class="icon" aria-hidden="true">🕑</span> <span><strong>Время заезда:</strong> после 14:00</span></li>
+                    <li><span class="icon" aria-hidden="true">🕑</span> <span><strong>Время выезда:</strong> до 12:00</span></li>
+                </div>
+
+                <p class="info-text">
+                    <strong>Условия заселения:</strong> при себе иметь паспорт, залоговую сумму 1000 рублей (возвращается в день выезда). 
+                </p>
+
+                <p class="info-text" style="color: var(--danger); font-weight: 600;">
+                    ❗️ В квартире не курят и не проводят вечеринок.<br>
+                    ❗️ Соблюдение тишины после 22:00 (за нарушение залоговая сумма не возвращается).<br>
+                    ❗️ Квартира <strong>НЕ</strong> сдаётся людям младше 21 года.
+                </p>
+
+                <p class="info-text" style="margin-top: auto; padding-top: 12px; border-top: 1px dashed #ddd;">
+                    <strong>Командировочным предоставляем электронный чек 🧾.</strong><br>
+                    <strong>Трансфер по договоренности.</strong>
+                </p>
+            </div>
+
+            <!-- Всё для комфорта -->
+<div class="info-card">
+    <h3><span aria-hidden="true">🏠</span> Всё для комфорта</h3>
+    
+    <p class="info-text">
+        ❣️ Для наших гостей есть всё самое необходимое: четыре односпальных кровати, чистые мягкие полотенца, свежее постельное бельё, микроволновка, чайник, холодильник, посуда, wi-fi, SMART-TV с приложением Wink в каждой комнате, парковка для вашего авто во дворе дома.
+    </p>
+    
+    <p class="info-text">
+        <strong>Вблизи расположены:</strong> центральный парк, ривьера, тц звёздочка, автостанция.
+    </p>
+
+    <!-- Новый вертикальный список -->
+    <ul class="amenities-list-vertical" style="margin-top: auto;">
+        <li><span class="icon" aria-hidden="true">🛏️</span> 2 комнаты</li>
+        <li><span class="icon" aria-hidden="true">📺</span> SMART-TV (Wink)</li>
+        <li><span class="icon" aria-hidden="true">🧺</span> Стиральная машина</li>
+        <li><span class="icon" aria-hidden="true">🍳</span> Кухня</li>
+        <li><span class="icon" aria-hidden="true">🌬️</span> Фен</li>
+        <li><span class="icon" aria-hidden="true">👔</span> Утюг</li>
+        <li><span class="icon" aria-hidden="true">🅿️</span> Парковка</li>
+        <li><span class="icon" aria-hidden="true">🔑</span> Быстрое заселение</li>
+    </ul>
+</div>
+        </div>
+
+        <!-- ===== ФУТЕР ===== -->
+        <footer class="site-footer">
+            <span class="footer-welcome">Ждём вас в гости! 🤗✨</span>
+            <p>Все права защищены. &copy; Точка уюта, 2026</p>
+            <p>Политика конфиденциальности: мы не передаем ваши данные третьим лицам.</p>
+            <p style="margin-top: 12px; font-size: 13px; color: #aaa;">
+                Информация на сайте не является публичной офертой.
+            </p>
+        </footer>
+    </section>
+
+    <!-- ===== PAGE: ЛЕРМОНТОВА 8 ===== -->
+    <section id="apt1" class="page" aria-labelledby="apt1-title">
+        <h2 id="apt1-title" class="visually-hidden">Квартира на Лермонтова 8, Свирск</h2>
+        <div class="card">
+            <div class="gallery">
+                <img src="images/Лермонтова/Л - спальня 2.jpg" data-fullscreen="true" alt="Зал в апартаментах на Лермонтова 8, Свирск" loading="lazy" decoding="async">
+                <img src="images/Лермонтова/Л - спальня 1.jpg" data-fullscreen="true" alt="Спальня на Лермонтова 8, Свирск" loading="lazy" decoding="async">
+                <img src="images/Лермонтова/Л - кухня.jpg" data-fullscreen="true" alt="Кухня на Лермонтова 8, Свирск" loading="lazy" decoding="async">
+                <img src="images/Лермонтова/Л - кухня 2.jpg" data-fullscreen="true" alt="Кухня, вид 2 на Лермонтова 8, Свирск" loading="lazy" decoding="async">
+                <img src="images/Лермонтова/Л - ванна.jpg" data-fullscreen="true" alt="Ванная комната на Лермонтова 8, Свирск" loading="lazy" decoding="async">
+                <img src="images/Лермонтова/Л - туалет.jpg" data-fullscreen="true" alt="Туалет на Лермонтова 8, Свирск" loading="lazy" decoding="async">
+                <img src="images/Лермонтова/Л - вход.jpg" data-fullscreen="true" alt="Вход в апартаменты на Лермонтова 8, Свирск" loading="lazy" decoding="async">
+                <img src="images/Лермонтова/Л - фен.jpg" data-fullscreen="true" alt="Фен и гладильная доска на Лермонтова 8, Свирск" loading="lazy" decoding="async">
+                <img src="images/Лермонтова/Л - знак.jpg" data-fullscreen="true" alt="Знак гостеприимства Авито Путешествия" loading="lazy" decoding="async">
+            </div>
+
+            <div class="card-body">
+                <div class="title">
+                    Лермонтова 8
+                    <span class="badge">⭐ Популярный</span>
+                </div>
+                <div class="address">📍 Свирск, ул. Лермонтова, 8</div>
+
+                <div class="price-block">
+                    <div>
+                        <div class="price">2 500 ₽ <small>/ сутки</small></div>
+                    </div>
+                    <div class="capacity">👤 до 3 чел. включительно; +500 ₽/сутки за 4-го и последующих</div>
+                </div>
+
+                <div class="btns">
+                    <a class="btn btn-vk" href="https://vk.com/im?sel=1054190749&text=Хочу%20Лермонтова%208" target="_blank" rel="noopener noreferrer">ВКонтакте</a>
+                    <a class="btn btn-tg" href="https://t.me/evergreen_hope1?text=Хочу%20Лермонтова%208" target="_blank" rel="noopener noreferrer">Telegram</a>
+                    <a class="btn btn-whatsapp" href="https://wa.me/79248243183?text=Хочу%20Лермонтова%208" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="map-container">
+            <iframe
+                src="https://yandex.ru/map-widget/v1/?text=Свирск%2C%20ул.%20Лермонтова%2C%208&z=15"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen
+                title="Карта: Свирск, ул. Лермонтова, 8"></iframe>
+        </div>
+    </section>
+
+    <!-- ===== PAGE: ТИМИРЯЗЕВА 1 ===== -->
+    <section id="apt2" class="page" aria-labelledby="apt2-title">
+        <h2 id="apt2-title" class="visually-hidden">Квартира на Тимирязева 1, Свирск</h2>
+        <div class="card">
+            <div class="gallery">
+                <img src="images/Тимирязево/Т - зал.jpg" data-fullscreen="true" alt="Зал в апартаментах на Тимирязева 1, Свирск" loading="lazy" decoding="async">
+                <img src="images/Тимирязево/Т - кресло(зал).jpg" data-fullscreen="true" alt="Кресло-кокон в зале на Тимирязева 1, Свирск" loading="lazy" decoding="async">
+                <img src="images/Тимирязево/Т - телевизор(зал).jpg" data-fullscreen="true" alt="Телевизор в зале на Тимирязева 1, Свирск" loading="lazy" decoding="async">
+                <img src="images/Тимирязево/Т - спальня.jpg" data-fullscreen="true" alt="Спальня на Тимирязева 1, Свирск" loading="lazy" decoding="async">
+                <img src="images/Тимирязево/Т - кухня.jpg" data-fullscreen="true" alt="Кухня на Тимирязева 1, Свирск" loading="lazy" decoding="async">
+                <img src="images/Тимирязево/Т - прихожая.jpg" data-fullscreen="true" alt="Прихожая на Тимирязева 1, Свирск" loading="lazy" decoding="async">
+                <img src="images/Тимирязево/Т - туалет.jpg" data-fullscreen="true" alt="Санузел на Тимирязева 1, Свирск" loading="lazy" decoding="async">
+                <img src="images/Тимирязево/Т - угол.jpg" data-fullscreen="true" alt="Уголок с утюгом и гладильной доской на Тимирязева 1" loading="lazy" decoding="async">
+                <img src="images/Тимирязево/Т - знак.jpg" data-fullscreen="true" alt="Знак гостеприимства Авито Путешествия" loading="lazy" decoding="async">
+            </div>
+
+            <div class="card-body">
+                <div class="title">
+                    Тимирязева 1
+                    <span class="badge">🌿 Уютный</span>
+                </div>
+                <div class="address">📍 Свирск, ул. Тимирязева, 1</div>
+
+                <div class="price-block">
+                    <div>
+                        <div class="price">2 500 ₽ <small>/ сутки</small></div>
+                    </div>
+                    <div class="capacity">👤 до 3 чел. включительно; +500 ₽/сутки за 4-го и последующих</div>
+                </div>
+
+                <div class="btns">
+                    <a class="btn btn-vk" href="https://vk.com/im?sel=1054190749&text=Хочу%20Тимирязева%201" target="_blank" rel="noopener noreferrer">ВКонтакте</a>
+                    <a class="btn btn-tg" href="https://t.me/evergreen_hope1?text=Хочу%20Тимирязева%201" target="_blank" rel="noopener noreferrer">Telegram</a>
+                    <a class="btn btn-whatsapp" href="https://wa.me/79248243183?text=Хочу%20Тимирязева%201" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="map-container">
+            <iframe
+                src="https://yandex.ru/map-widget/v1/?text=Свирск%2C%20ул.%20Тимирязева%2C%201&z=15"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen
+                title="Карта: Свирск, ул. Тимирязева, 1"></iframe>
+        </div>
+    </section>
+
+</main>
+
+<!-- ===== FULLSCREEN OVERLAY ===== -->
+<div class="fullscreen" id="fullscreen" role="dialog" aria-modal="true" aria-label="Просмотр фото">
+    <button class="nav-arrow prev" id="fsPrev" aria-label="Предыдущее фото">‹</button>
+    <img id="fullscreen-img" alt="Увеличенное фото">
+    <button class="nav-arrow next" id="fsNext" aria-label="Следующее фото">›</button>
+    <div class="close-hint">✕ Нажмите для закрытия · ← → для навигации</div>
+</div>
+
+<!-- Flatpickr -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    'use strict';
+
+    /* ===== НАСТРОЙКИ БРОНИРОВАНИЯ ===== */
+    const RC_CONFIG = {
+        baseUrl: 'https://homereserve.ru/n6JUBMJ8nz',
+        objects: {
+            apt1: { id: '216859', name: 'Лермонтова 8', url: '' },
+            apt2: { id: '216915', name: 'Тимирязева 1', url: '' }
+        },
+        objectParam: '' 
+    };
+
+    const sidebar = document.getElementById('sidebar');
+    const menuToggle = document.getElementById('menuToggle');
+    const overlay = document.getElementById('sidebarOverlay');
+    const navLinks = document.querySelectorAll('.sidebar-nav a[data-page]');
+    const pages = {
+        main: document.getElementById('main'),
+        apt1: document.getElementById('apt1'),
+        apt2: document.getElementById('apt2')
+    };
+    const fullscreenEl = document.getElementById('fullscreen');
+    const fullscreenImg = document.getElementById('fullscreen-img');
+    const fsPrev = document.getElementById('fsPrev');
+    const fsNext = document.getElementById('fsNext');
+    const heroCtaLink = document.querySelector('.hero .btn-primary[data-page]');
+
+    const fullscreenImages = Array.from(document.querySelectorAll('img[data-fullscreen="true"]'));
+    let currentFsIndex = -1;
+
+    /* ===== НАВИГАЦИЯ ПО СТРАНИЦАМ ===== */
+    function showPage(pageId) {
+        Object.values(pages).forEach(page => { if (page) page.classList.remove('active'); });
+        if (pages[pageId]) pages[pageId].classList.add('active');
+        navLinks.forEach(link => {
+            link.classList.remove('active-link');
+            if (link.dataset.page === pageId) link.classList.add('active-link');
+        });
+        closeMenu();
+        document.body.style.overflow = '';
+        if (history.replaceState) history.replaceState(null, '', '#' + pageId);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMenu() {
+        const isOpen = sidebar.classList.toggle('open');
+        overlay.classList.toggle('active', isOpen);
+        menuToggle.classList.toggle('open', isOpen);
+        menuToggle.textContent = isOpen ? '✕' : '☰';
+        menuToggle.setAttribute('aria-expanded', String(isOpen));
+        menuToggle.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
+    }
+
+    function closeMenu() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        menuToggle.classList.remove('open');
+        menuToggle.textContent = '☰';
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Открыть меню');
+    }
+
+    /* ===== FULLSCREEN ===== */
+    function openFullscreen(img) {
+        currentFsIndex = fullscreenImages.indexOf(img);
+        fullscreenImg.src = img.src;
+        fullscreenImg.alt = img.alt || 'Фото';
+        fullscreenEl.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeFullscreen() {
+        fullscreenEl.style.display = 'none';
+        document.body.style.overflow = '';
+        currentFsIndex = -1;
+    }
+
+    function navigateFullscreen(direction) {
+        if (currentFsIndex < 0 || fullscreenImages.length === 0) return;
+        const currentPage = document.querySelector('.page.active');
+        const pageImages = currentPage
+            ? Array.from(currentPage.querySelectorAll('img[data-fullscreen="true"]'))
+            : fullscreenImages;
+        const idx = pageImages.indexOf(fullscreenImages[currentFsIndex]);
+        if (idx === -1) return;
+        const nextIdx = (idx + direction + pageImages.length) % pageImages.length;
+        const nextImg = pageImages[nextIdx];
+        currentFsIndex = fullscreenImages.indexOf(nextImg);
+        fullscreenImg.src = nextImg.src;
+        fullscreenImg.alt = nextImg.alt || 'Фото';
+    }
+
+    /* ===== СОБЫТИЯ ===== */
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            showPage(this.dataset.page);
+        });
+    });
+
+    if (heroCtaLink) {
+        heroCtaLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            showPage(this.dataset.page);
+        });
+    }
+
+    menuToggle.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') { closeMenu(); closeFullscreen(); }
+        if (fullscreenEl.style.display === 'flex') {
+            if (e.key === 'ArrowLeft') { e.preventDefault(); navigateFullscreen(-1); }
+            if (e.key === 'ArrowRight') { e.preventDefault(); navigateFullscreen(1); }
+        }
+        if (e.altKey) {
+            const map = { '1': 'main', '2': 'apt1', '3': 'apt2' };
+            if (map[e.key]) { e.preventDefault(); showPage(map[e.key]); }
+        }
+    });
+
+    fullscreenImages.forEach(img => {
+        img.addEventListener('click', function() { openFullscreen(this); });
+        img.setAttribute('role', 'button');
+        img.setAttribute('tabindex', '0');
+        img.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openFullscreen(this);
+            }
+        });
+    });
+
+    fullscreenEl.addEventListener('click', function(e) {
+        if (e.target === fullscreenEl) closeFullscreen();
+    });
+    fsPrev.addEventListener('click', function(e) { e.stopPropagation(); navigateFullscreen(-1); });
+    fsNext.addEventListener('click', function(e) { e.stopPropagation(); navigateFullscreen(1); });
+
+    let touchStartX = 0;
+    fullscreenEl.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    fullscreenEl.addEventListener('touchend', function(e) {
+        const diff = e.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(diff) > 50) navigateFullscreen(diff > 0 ? -1 : 1);
+    }, { passive: true });
+
+    /* ===== ТАБЫ КАЛЕНДАРЯ ===== */
+    const calendarTabs = document.querySelectorAll('.calendar-tab');
+    const widgetTab = document.getElementById('widgetTab');
+    const calcTab = document.getElementById('calcTab');
+
+    calendarTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            calendarTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            if (this.dataset.tab === 'widget') {
+                widgetTab.style.display = 'block';
+                calcTab.style.display = 'none';
+            } else {
+                widgetTab.style.display = 'none';
+                calcTab.style.display = 'block';
+            }
+        });
+    });
+
+    /* ===== ВЫБОР КВАРТИРЫ ===== */
+    const objectSelect = document.getElementById('objectSelect');
+    const rcWidget = document.getElementById('rcWidget');
+    const widgetFallback = document.getElementById('widgetFallback');
+
+    function updateWidget() {
+        const selectedOption = objectSelect.options[objectSelect.selectedIndex];
+        const objectId = selectedOption.dataset.id;
+        const val = selectedOption.value;
+        
+        let widgetUrl = RC_CONFIG.baseUrl;
+        
+        if (RC_CONFIG.objects[val] && RC_CONFIG.objects[val].url) {
+            widgetUrl = RC_CONFIG.objects[val].url;
+        } else if (RC_CONFIG.objectParam && objectId) {
+            const url = new URL(RC_CONFIG.baseUrl);
+            url.searchParams.set(RC_CONFIG.objectParam, objectId);
+            widgetUrl = url.toString();
+        }
+
+        rcWidget.onerror = function() {
+            rcWidget.style.display = 'none';
+            widgetFallback.style.display = 'block';
+        };
+        
+        rcWidget.src = widgetUrl;
+    }
+
+    objectSelect.addEventListener('change', updateWidget);
+    updateWidget();
+
+    /* ===== КАЛЕНДАРЬ (РАСЧЁТ) ===== */
+    const checkinInput = document.getElementById('checkin');
+    const checkoutInput = document.getElementById('checkout');
+    const guestsSelect = document.getElementById('guests');
+    const totalPriceDiv = document.getElementById('totalPrice');
+    const bookBtn = document.getElementById('bookBtn');
+
+    const BASE_PRICE = 2500;
+    const EXTRA_GUEST_PRICE = 500;
+    const FREE_GUESTS = 3;
+
+    let checkinDate = null;
+    let checkoutDate = null;
+
+    const fpCheckin = flatpickr(checkinInput, {
+        locale: "ru",
+        dateFormat: "d.m.Y",
+        minDate: "today",
+        disableMobile: true,
+        onChange: function(selectedDates) {
+            checkinDate = selectedDates[0] || null;
+            if (checkinDate) {
+                fpCheckout.set('minDate', checkinDate);
+                if (checkoutDate && checkoutDate <= checkinDate) {
+                    fpCheckout.clear();
+                    checkoutDate = null;
+                }
+            }
+            calculateTotal();
+        }
+    });
+
+    const fpCheckout = flatpickr(checkoutInput, {
+        locale: "ru",
+        dateFormat: "d.m.Y",
+        minDate: "today",
+        disableMobile: true,
+        onChange: function(selectedDates) {
+            checkoutDate = selectedDates[0] || null;
+            calculateTotal();
+        }
+    });
+
+    function calculateTotal() {
+        if (checkinDate && checkoutDate) {
+            const nights = Math.round((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
+            if (nights > 0) {
+                const guests = parseInt(guestsSelect.value, 10);
+                const extraGuests = Math.max(0, guests - FREE_GUESTS);
+                const total = (BASE_PRICE + extraGuests * EXTRA_GUEST_PRICE) * nights;
+
+                totalPriceDiv.textContent =
+                    `Итого за ${nights} ${pluralNights(nights)}: ${total.toLocaleString('ru-RU')} ₽`;
+                totalPriceDiv.style.display = 'block';
+                bookBtn.style.display = 'block';
+                return;
+            }
+        }
+        totalPriceDiv.style.display = 'none';
+        bookBtn.style.display = 'none';
+    }
+
+    function pluralNights(n) {
+        const mod10 = n % 10, mod100 = n % 100;
+        if (mod10 === 1 && mod100 !== 11) return 'ночь';
+        if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return 'ночи';
+        return 'ночей';
+    }
+
+    guestsSelect.addEventListener('change', calculateTotal);
+
+    bookBtn.addEventListener('click', function() {
+        if (!checkinDate || !checkoutDate) return;
+
+        const formatDate = (date) =>
+            date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+
+        const nights = Math.round((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24));
+        const guests = guestsSelect.value;
+        const totalText = totalPriceDiv.textContent;
+        
+        const selectedOption = objectSelect.options[objectSelect.selectedIndex];
+        const objectName = selectedOption.textContent;
+
+        const message =
+            `Здравствуйте! Хочу забронировать квартиру (${objectName}).\n` +
+            `📅 Заезд: ${formatDate(checkinDate)}\n` +
+            `📅 Выезд: ${formatDate(checkoutDate)} (${nights} ${pluralNights(nights)})\n` +
+            `👤 Гостей: ${guests}\n` +
+            `💰 ${totalText}`;
+
+        const tgUsername = 'evergreen_hope1';
+        window.open(`https://t.me/${tgUsername}?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
+    });
+
+    /* ===== СТАРТОВАЯ СТРАНИЦА ИЗ HASH ===== */
+    const initial = (location.hash || '').replace('#', '');
+    if (initial && pages[initial]) showPage(initial);
+});
+</script>
+
+</body>
+</html>
